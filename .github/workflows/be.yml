@@ -1,0 +1,38 @@
+name: Backend CI/CD
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'backend/**' # Chỉ chạy khi code trong thư mục backend thay đổi
+  pull_request:
+    paths:
+      - 'backend/**'
+
+jobs:
+  build-backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend # Trỏ vào thư mục backend
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    - name: Install Dependencies
+      run: npm install
+
+    - name: Run Tests with Secret
+      # Cách sử dụng SECRET
+      env:
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }} 
+        PORT: ${{ vars.PORT_BE }}
+      run: |
+        echo "Testing connection with port $PORT..."
+        # npm test (bỏ comment nếu có test)
