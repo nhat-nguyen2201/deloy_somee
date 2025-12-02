@@ -1,0 +1,20 @@
+name: Deploy Backend to Somee
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'backend/**'
+
+jobs:
+  web-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./backend/
+          # Deploy vào thư mục con "api"
+          server-dir: /www.dss.somee.com/api/
