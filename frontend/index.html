@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Demo CI/CD</title>
+  </head>
+  <body>
+    <h1>Frontend HTML</h1>
+    <div id="result">Đang tải dữ liệu từ API...</div>
+
+    <script>
+      // Thay đường dẫn này bằng domain backend của bạn sau khi deploy
+      const API_URL = "/api/index.php";
+
+      fetch(API_URL)
+        .then((response) => response.text()) // 1. Lấy dữ liệu dạng Text thô trước (không dùng .json())
+        .then((text) => {
+          // 2. Lọc bỏ đoạn script quảng cáo của Somee (Nó thường bắt đầu bằng <script)
+          // Lấy phần text từ đầu cho đến trước khi gặp dấu "<" của thẻ script
+          const cleanText = text.split("<script")[0];
+
+          // 3. Parse JSON từ đoạn text sạch
+          return JSON.parse(cleanText);
+        })
+        .then((data) => {
+          document.getElementById("result").innerText =
+            data.message + " (" + data.time + ")";
+        })
+        .catch((error) => {
+          console.error(error);
+          document.getElementById("result").innerText = "Lỗi: " + error.message;
+        });
+    </script>
+  </body>
+</html>
