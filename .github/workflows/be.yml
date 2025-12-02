@@ -1,9 +1,9 @@
-name: Deploy Frontend to Somee
+name: Deploy Backend to Somee
 on:
   push:
     branches: [ "main" ]
     paths:
-      - 'frontend/**'
+      - 'backend/**'
 
 jobs:
   web-deploy:
@@ -16,10 +16,10 @@ jobs:
           server: dss.somee.com
           username: nhatnguyen123
           
-          # Mật khẩu bạn PHẢI tạo trong Settings -> Secrets -> Actions với tên FTP_PASSWORD
+          # Dùng chung mật khẩu với Frontend
           password: ${{ secrets.FTP_PASSWORD }}
           
-          local-dir: ./frontend/
+          local-dir: ./backend/
           
-          # Đường dẫn gốc cho Frontend
-          server-dir: /www.DSS.somee.com/
+          # QUAN TRỌNG: Đưa Backend vào thư mục "api"
+          server-dir: /www.DSS.somee.com/api/
