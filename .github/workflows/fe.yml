@@ -1,25 +1,29 @@
-name: Deploy Frontend to Somee
+name: Deploy Frontend to Somee.com
+
 on:
   push:
-    branches: [ "main" ]
+    branches: [ main ]
     paths:
-      - 'frontend/**'
+      - 'frontend/**'      # chỉ chạy khi thay đổi trong thư mục frontend
+      - '.github/workflows/fe.yml'
 
 jobs:
-  web-deploy:
+  deploy-somee:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Sync files to Somee.com
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          # Đã điền thông tin của bạn
-          server: dss.somee.com
+          server: DSS.somee.com          # chính xác tên server Somee cung cấp
           username: nhatnguyen123
-          
-          # Mật khẩu bạn PHẢI tạo trong Settings -> Secrets -> Actions với tên FTP_PASSWORD
-          password: ${{ secrets.FTP_PASSWORD }}
-          
-          local-dir: ./frontend/
-          
-          # Đường dẫn gốc cho Frontend
-          server-dir: /www.DSS.somee.com/
+          password: ${{ secrets.SOMEE_PASSWORD }}   # sẽ tạo secret ở bước dưới
+          local-dir: ./frontend/         # thư mục chứa index.html của bạn
+          server-dir: /www.DSS.somee.com/   # hoặc để trống ./ nếu không hoạt động
+          dangerous-clean-slate: false   # giữ lại file cũ nếu có
+          exclude: |
+            **/.git*
+            **/.github/
+            README.md
