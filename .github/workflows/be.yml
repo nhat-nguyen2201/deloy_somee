@@ -1,25 +1,23 @@
-name: Deploy Backend to Somee
+# File: .github/workflows/be.yml
+name: Deploy Backend to InfinityFree
+
 on:
   push:
-    branches: [ "main" ]
-    paths:
-      - 'backend/**'
+    branches: [ main ]
 
 jobs:
-  web-deploy:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+
+      - name: FTP Deploy to InfinityFree
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          # Đã điền thông tin của bạn
-          server: dss.somee.com
-          username: nhatnguyen123
-          
-          # Dùng chung mật khẩu với Frontend
-          password: ${{ secrets.FTP_PASSWORD }}
-          
-          local-dir: ./backend/
-          
-          # QUAN TRỌNG: Đưa Backend vào thư mục "api"
-          server-dir: /www.DSS.somee.com/api/
+          server: ftpupload.net
+          username: ${{ if0_40582250 }}      # if0_40582250
+          password: ${{ secrets.IF_PASSWORD }}
+          local-dir: ./backend/                     # đổi thành ./ nếu api.php ở ngoài cùng
+          server-dir: /htdocs/
+          dangerous-clean-slate: false
+          timeout: 90000
