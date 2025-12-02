@@ -12,9 +12,14 @@ jobs:
       - uses: actions/checkout@v4
       - uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
+          # Đã điền thông tin của bạn
+          server: dss.somee.com
+          username: nhatnguyen123
+          
+          # Mật khẩu bạn PHẢI tạo trong Settings -> Secrets -> Actions với tên FTP_PASSWORD
           password: ${{ secrets.FTP_PASSWORD }}
+          
           local-dir: ./frontend/
-          # Thay dss.somee.com bằng tên miền thật của bạn hiển thị trong File Manager
-          server-dir: /www.dss.somee.com/
+          
+          # Đường dẫn gốc cho Frontend
+          server-dir: /www.DSS.somee.com/
