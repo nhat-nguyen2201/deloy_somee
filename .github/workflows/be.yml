@@ -1,23 +1,29 @@
-# File: .github/workflows/be.yml
-name: Deploy Backend to InfinityFree
+name: Deploy Backend (InfinityFree)
 
 on:
   push:
-    branches: [ main ]
+    branches: ["main"]
+    paths:
+      - 'backend/**' # Chỉ chạy khi folder backend thay đổi
 
 jobs:
-  deploy:
+  deploy-be:
     runs-on: ubuntu-latest
+    name: Deploy PHP to InfinityFree
     steps:
-      - uses: actions/checkout@v4
-
-      - name: FTP Deploy to InfinityFree
+      - name: 🚚 Lấy code mới nhất
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: 🚀 Upload lên InfinityFree qua FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ftpupload.net
-          username: ${{ if0_40582250 }}      # if0_40582250
-          password: ${{ secrets.IF_PASSWORD }}
-          local-dir: ./backend/                     # đổi thành ./ nếu api.php ở ngoài cùng
-          server-dir: /htdocs/
-          dangerous-clean-slate: false
-          timeout: 90000
+          server: ${{ secrets.INFINITYFREE_SERVER }}
+          username: ${{ secrets.INFINITYFREE_USERNAME }}
+          password: ${{ secrets.INFINITYFREE_PASSWORD }}
+          local-dir: ./backend/
+          # InfinityFree bắt buộc code phải nằm trong thư mục htdocs
+          server-dir: /htdocs/  
+          # Lưu ý: InfinityFree hay chặn IP của GitHub Actions. 
+          # Nếu upload thất bại, bạn có thể cần thử lại hoặc dùng hosting khác.
