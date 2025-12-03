@@ -19,7 +19,7 @@ jobs:
         with:
           server: DSS.somee.com          # chính xác tên server Somee cung cấp
           username: nhatnguyen123
-          password: ${{ secrets.SOMEE_PASSWORD }}   # sẽ tạo secret ở bước dưới
+          password: ${{ secrets.Nguyen//123 }}   
           local-dir: ./frontend/         # thư mục chứa index.html của bạn
           server-dir: /www.DSS.somee.com/   # hoặc để trống ./ nếu không hoạt động
           dangerous-clean-slate: false   # giữ lại file cũ nếu có
