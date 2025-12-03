@@ -1,29 +1,27 @@
-name: Deploy Frontend to Somee.com
+name: Deploy Frontend (Somee)
 
 on:
   push:
-    branches: [ main ]
+    branches: ["main"]
     paths:
-      - 'frontend/**'      # chỉ chạy khi thay đổi trong thư mục frontend
-      - '.github/workflows/fe.yml'
+      - 'frontend/**'
 
 jobs:
-  deploy-somee:
+  deploy-fe:
     runs-on: ubuntu-latest
+    name: Deploy HTML/PHP to Somee
     steps:
-      - name: Checkout code
+      - name: 🚚 Lấy code mới nhất
         uses: actions/checkout@v4
-
-      - name: Sync files to Somee.com
+        with:
+          fetch-depth: 0
+      
+      - name: 🚀 Upload lên Somee qua FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: DSS.somee.com          # chính xác tên server Somee cung cấp
-          username: nhatnguyen123
-          password: ${{ secrets.Nguyen//123 }}   
-          local-dir: ./frontend/         # thư mục chứa index.html của bạn
-          server-dir: /www.DSS.somee.com/   # hoặc để trống ./ nếu không hoạt động
-          dangerous-clean-slate: false   # giữ lại file cũ nếu có
-          exclude: |
-            **/.git*
-            **/.github/
-            README.md
+          # Đảm bảo dùng biến SOMEE (không phải IF)
+          server: ${{ secrets.SOMEE_SERVER }} 
+          username: ${{ secrets.SOMEE_USERNAME }}
+          password: ${{ secrets.SOMEE_PASSWORD }}
+          local-dir: ./frontend/
+          server-dir: /www.DSS.somee.com/
